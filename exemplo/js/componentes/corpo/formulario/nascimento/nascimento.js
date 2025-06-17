@@ -32,11 +32,46 @@ function comportamentoDataNascimento(evento) {
   }
 }
 
+function validarDataNascimento(input) {
+  const valor = input.value;
+  const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+  
+  if (!regex.test(valor)) {
+    return false;
+  }
+  
+  const [, dia, mes, ano] = valor.match(regex);
+  const data = new Date(ano, mes - 1, dia);
+  
+  // Verificar se a data é válida e não é futura
+  const hoje = new Date();
+  return data.getDate() == dia && 
+         data.getMonth() == mes - 1 && 
+         data.getFullYear() == ano &&
+         data <= hoje;
+}
+
 export async function componenteNascimento() {
-  const formulario = document.querySelector('#formulario');
-  await carregar('./js/componentes/corpo/formulario/nascimento/nascimento.html', formulario);
+  try {
+    const formulario = document.querySelector('#formulario');
+    await carregar('./js/componentes/corpo/formulario/nascimento/nascimento.html', formulario);
 
-  const nascimento = formulario.querySelector('#nascimento');
+    const nascimento = formulario.querySelector('#nascimento');
 
-  nascimento.addEventListener('keydown', (event) => comportamentoDataNascimento(event));
+    nascimento.addEventListener('keydown', (event) => comportamentoDataNascimento(event));
+    
+    // Expor função de validação para uso externo
+    nascimento.validar = () => {
+      const isValid = validarDataNascimento(nascimento);
+      if (!isValid) {
+        nascimento.classList.add('invalido');
+      } else {
+        nascimento.classList.remove('invalido');
+      }
+      return isValid;
+    };
+  } catch (error) {
+    console.error('Erro ao carregar componente nascimento:', error);
+    throw error;
+  }
 }

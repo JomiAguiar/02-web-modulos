@@ -1,5 +1,14 @@
-import { carregarComponentes } from './componentes/carregarComponentes.js';
+import { componenteCabecalho } from "./cabecalho/cabecalho.js";
+import { componenteCorpo } from "./corpo/corpo.js";
+import { componenteRodape } from "./rodape/rodape.js";
 
-window.addEventListener('DOMContentLoaded', async () => {
-    await carregarComponentes();
-});
+export async function carregarComponentes() {
+    try {
+        await componenteCabecalho();
+        await componenteCorpo();
+        await componenteRodape();
+    } catch (error) {
+        console.error('Erro ao carregar componentes:', error);
+        throw error;
+    }
+}

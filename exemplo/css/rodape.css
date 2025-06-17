@@ -1,7 +1,24 @@
 #rodape {
-    background-color: #4b4b4b;
-    color: #c9c9c9;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: #cbd5e1;
     text-align: center;
-    padding: 1rem;
-    border: 3px solid blue;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#rodape p {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    #rodape {
+        padding: 1rem;
+    }
+    
+    #rodape p {
+        font-size: 0.75rem;
+    }
 }

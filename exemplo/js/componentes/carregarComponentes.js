@@ -3,7 +3,12 @@ import { componenteCorpo } from "./corpo/corpo.js";
 import { componenteRodape } from "./rodape/rodape.js";
 
 export async function carregarComponentes() {
-    await componenteCabecalho();
-    await componenteCorpo();
-    await componenteRodape();
+    try {
+        await componenteCabecalho();
+        await componenteCorpo();
+        await componenteRodape();
+    } catch (error) {
+        console.error('Erro ao carregar componentes:', error);
+        throw error;
+    }
 }

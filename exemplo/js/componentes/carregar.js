@@ -1,7 +1,17 @@
 export async function carregar(caminhoDoComponente, elementoPai) {
-  const resposta = await fetch(caminhoDoComponente);
-  const htmlDoComponente = await resposta.text();
-  elementoPai.insertAdjacentHTML('beforeend', htmlDoComponente);
+  try {
+    const resposta = await fetch(caminhoDoComponente);
+    
+    if (!resposta.ok) {
+      throw new Error(`Erro ao carregar ${caminhoDoComponente}: ${resposta.status}`);
+    }
+    
+    const htmlDoComponente = await resposta.text();
+    elementoPai.insertAdjacentHTML('beforeend', htmlDoComponente);
+  } catch (error) {
+    console.error('Erro ao carregar componente:', error);
+    throw error;
+  }
 }
 
 /*
@@ -11,6 +21,6 @@ export async function carregar(caminhoDoComponente, elementoPai) {
 => As 4 posições possíveis:
    * "beforebegin": antes do próprio elemento.
    * "afterbegin": logo após a abertura da tag do elemento (como primeiro filho).
-   * "beforeend": logo antes do fechamento da tag do elemento (como último filho).0
+   * "beforeend": logo antes do fechamento da tag do elemento (como último filho).
    * "afterend": depois do próprio elemento.
 */
